@@ -1,21 +1,28 @@
+import os
+
 import webapp2
+import jinja2
+
 from google.appengine.api import users
 from post import Post
+
+
+JINJA_ENVIRONMENT = jinja2.Environment(
+    loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
 
 class HomePage(webapp2.RequestHandler):
 
     def get(self):
-        self.response.headers['Content-Type'] = 'text/html'
         posts = Post.query().order(-Post.postedDate)
 
-        self.response.write('<!DOCTYPE html><html><body>')
-        for post in posts:
-            self.response.write('<h2>' + post.title + '</h2>')
-            self.response.write('<h3>' +
-                    post.postedDate.strftime('%c') + '</h3>')
-            self.response.write(post.content)
-        self.response.write('</body></html>')
+        template = JINJA_ENVIRONMENT.get_template('templates/home.html')
+        template_values = {
+            'posts': posts,
+        }
+
+        self.response.headers['Content-Type'] = 'text/html'
+        self.response.write(template.render(template_values))
 
 
 class AdminPage(webapp2.RequestHandler):
@@ -26,15 +33,11 @@ class AdminPage(webapp2.RequestHandler):
             self.redirect(users.create_login_url(self.request.uri))
             return
 
+        template = JINJA_ENVIRONMENT.get_template('templates/admin.html')
+        template_values = {}
+
         self.response.headers['Content-Type'] = 'text/html'
-        self.response.write('<!DOCTYPE html><html><body>')
-        self.response.write('<form action="/admin" method="post">')
-        self.response.write('<input type="text" name="title"><br>')
-        self.response.write('<textarea name="content" rows="10" cols="60">' +
-                '</textarea><br>')
-        self.response.write('<input type="submit" value="Create Post">')
-        self.response.write('</form>')
-        self.response.write('</body></html>')
+        self.response.write(template.render(template_values))
 
     def post(self):
         user = users.get_current_user()
@@ -46,10 +49,7 @@ class AdminPage(webapp2.RequestHandler):
             content=self.request.get('content'))
         post.put()
 
-        self.response.headers['Content-Type'] = 'text/html'
-        self.response.write('<!DOCTYPE html><html><body>')
-        self.response.write('<p>Post created</p>')
-        self.response.write('</body></html>')
+        self.redirect('/')
 
 
 application = webapp2.WSGIApplication([

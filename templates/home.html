@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        {% for post in posts %}
+        <h2>{{ post.title }}</h2>
+        <h3>{{ post.postedDate.strftime('%c') }}</h3>
+        {{ post.content }}
+        {% endfor %}
+    </body>
+</html>
