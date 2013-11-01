@@ -13,7 +13,7 @@ class HomePage(webapp2.RequestHandler):
             self.response.write('<h2>' + post.title + '</h2>')
             self.response.write('<h3>' +
                     post.postedDate.strftime('%c') + '</h3>')
-            self.response.write('<p>' + post.content + '</p>')
+            self.response.write(post.content)
         self.response.write('</body></html>')
 
 
