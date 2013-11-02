@@ -1,3 +1,4 @@
 app.yaml
 *.pyc
 *.nja
+custom/
