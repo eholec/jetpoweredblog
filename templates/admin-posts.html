@@ -1,0 +1,21 @@
+{% extends "templates/base.html" %}
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <p><strong>Title</strong></p>
+    </div>
+    <div class="col-md-3"">
+        <p><strong>Date</strong></p>
+    </div>
+</div>
+{% for post in posts %}
+<div class="row">
+    <div class="col-md-4">
+        <a href="/admin/posts/{{ post.key.id() }}">{{ post.title }}</a>
+    </div>
+    <div class="col-md-3">
+        <p>{{ post.postedDate.strftime('%a %b %d, %Y') }}</p>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

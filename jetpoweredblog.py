@@ -4,6 +4,8 @@ import webapp2
 import jinja2
 
 from google.appengine.api import users
+
+import admin.posts
 from post import Post
 
 
@@ -55,4 +57,5 @@ class AdminPage(webapp2.RequestHandler):
 application = webapp2.WSGIApplication([
     ('/', HomePage),
     ('/admin', AdminPage),
+    ('/admin/posts', admin.posts.AdminPostsHandler)
 ], debug=True)
