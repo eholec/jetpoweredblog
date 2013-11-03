@@ -1,23 +1,8 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Jet Powered Blog</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    </head>
-    <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-md-offset-2 col-md-8">
-                    {% for post in posts %}
-                    <h2>{{ post.title }}</h2>
-                    <p><strong>{{ post.postedDate.strftime('%A %B %d, %Y') }}</strong></p>
-                    {{ post.content }}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-        <script src="/static/jquery/jquery-2.0.3.min.js"></script>
-        <script src="/static/bootstrap/js/bootstrap.min.js"></script>
-    </body>
-</html>
+{% extends "templates/base.html" %}
+{% block content %}
+{% for post in posts %}
+<h2>{{ post.title }}</h2>
+<p><strong>{{ post.postedDate.strftime('%A %B %d, %Y') }}</strong></p>
+{{ post.content }}
+{% endfor %}
+{% endblock %}
