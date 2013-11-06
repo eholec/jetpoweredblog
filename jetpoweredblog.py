@@ -3,8 +3,6 @@ import os
 import webapp2
 import jinja2
 
-from google.appengine.api import users
-
 import admin.posts
 from post import Post
 
@@ -27,35 +25,9 @@ class HomePage(webapp2.RequestHandler):
         self.response.write(template.render(template_values))
 
 
-class AdminPage(webapp2.RequestHandler):
-
-    def get(self):
-        user = users.get_current_user()
-        if not user or not users.is_current_user_admin():
-            self.redirect(users.create_login_url(self.request.uri))
-            return
-
-        template = JINJA_ENVIRONMENT.get_template('templates/admin.html')
-        template_values = {}
-
-        self.response.headers['Content-Type'] = 'text/html'
-        self.response.write(template.render(template_values))
-
-    def post(self):
-        user = users.get_current_user()
-        if not user or not users.is_current_user_admin():
-            self.redirect(users.create_login_url(self.request.uri))
-            return
-
-        post = Post(title=self.request.get('title'),
-            content=self.request.get('content'))
-        post.put()
-
-        self.redirect('/')
-
-
 application = webapp2.WSGIApplication([
-    ('/', HomePage),
-    ('/admin', AdminPage),
-    ('/admin/posts', admin.posts.AdminPostsHandler)
+    (r'/', HomePage),
+    (r'/admin/posts', admin.posts.AdminPostsHandler),
+    (r'/admin/posts/create', admin.posts.AdminPostsCreateHandler),
+    (r'/admin/posts/edit/(\d+)', admin.posts.AdminPostsEditHandler),
 ], debug=True)
