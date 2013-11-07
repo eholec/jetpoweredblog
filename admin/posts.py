@@ -1,6 +1,8 @@
-import webapp2
+import datetime
 
+import webapp2
 from google.appengine.api import users
+
 from post import Post
 import jetpoweredblog
 
@@ -77,6 +79,13 @@ class AdminPostsEditHandler(webapp2.RequestHandler):
 
         post.title = self.request.POST['title']
         post.content = self.request.POST['content']
+
+        isPosted = 'isPosted' in self.request.POST
+        if(isPosted and not post.isPosted):
+            self.postedDate = datetime.datetime.now()
+
+        post.isPosted = isPosted
+
         post.put()
 
         self.response.set_status(204)
