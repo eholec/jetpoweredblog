@@ -14,7 +14,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
 class HomePage(webapp2.RequestHandler):
 
     def get(self):
-        posts = Post.query().order(-Post.postedDate)
+        posts = Post.query(Post.isPosted == True).order(-Post.postedDate)
 
         template = JINJA_ENVIRONMENT.get_template('templates/home.html')
         template_values = {
