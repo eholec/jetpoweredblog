@@ -82,7 +82,7 @@ class AdminPostsEditHandler(webapp2.RequestHandler):
 
         isPosted = 'isPosted' in self.request.POST
         if(isPosted and not post.isPosted):
-            self.postedDate = datetime.datetime.now()
+            post.postedDate = datetime.datetime.now()
 
         post.isPosted = isPosted
 
