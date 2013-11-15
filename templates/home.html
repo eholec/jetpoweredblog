@@ -1,8 +1,14 @@
 {% extends "templates/base.html" %}
 {% block content %}
 {% for post in posts %}
-<h2><a href="/posts/{{ post.key.id() }}">{{ post.title }}</a></h2>
+{% set snippet = post.getSnippet() %}
+<h1>{{ post.title }}</h1>
 <p><strong>{{ post.postedDate.strftime('%A %B %d, %Y') }}</strong></p>
+{% if snippet is none %}
 {{ post.content }}
+{% else %}
+{{ snippet }}
+<a href="/posts/{{ post.key.id() }}">- Read more -</a>
+{% endif %}
 {% endfor %}
 {% endblock %}
