@@ -9,7 +9,7 @@ class Post(ndb.Model):
     editedDate = ndb.DateTimeProperty(auto_now=True)
     tags = ndb.StringProperty(repeated=True)
 
-    def getSnippet(self):
+    def get_snippet(self):
         ind = self.content.find('<!-- READMORE -->')
 
         if ind < 0:

@@ -1,7 +1,7 @@
 {% extends "templates/base.html" %}
 {% block content %}
 {% for post in posts %}
-{% set snippet = post.getSnippet() %}
+{% set snippet = post.get_snippet() %}
 <h1>{{ post.title }}</h1>
 <p><strong>{{ post.postedDate.strftime('%A %B %d, %Y') }}</strong></p>
 {% if snippet is none %}
