@@ -2,3 +2,4 @@ app.yaml
 *.pyc
 *.nja
 custom/
+.idea/
